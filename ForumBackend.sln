@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumBackendApi", "ForumBackendApi\ForumBackendApi.csproj", "{740FD5F8-6074-46C3-8878-F012FAB9942E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumBackend.Core", "ForumBackend.Core\ForumBackend.Core.csproj", "{E097A867-6D93-4407-92FC-CB423E27584D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{740FD5F8-6074-46C3-8878-F012FAB9942E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740FD5F8-6074-46C3-8878-F012FAB9942E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740FD5F8-6074-46C3-8878-F012FAB9942E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740FD5F8-6074-46C3-8878-F012FAB9942E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E097A867-6D93-4407-92FC-CB423E27584D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E097A867-6D93-4407-92FC-CB423E27584D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E097A867-6D93-4407-92FC-CB423E27584D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E097A867-6D93-4407-92FC-CB423E27584D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
