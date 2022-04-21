@@ -17,4 +17,10 @@ public static class HashExtensions
 
         return builder.ToString();
     }
+
+    public static bool VerifyHash(this HashAlgorithm hashAlgorithm, string input, string hash)
+    {
+        var expectedHash = hashAlgorithm.GetHash(input);
+        return expectedHash == hash;
+    }
 }

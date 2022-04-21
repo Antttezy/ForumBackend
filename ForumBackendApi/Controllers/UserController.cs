@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("me")]
-    public async Task<ResultBase<string, string>> GetUserInfo()
+    public async Task<ResultBase<string, string>> GetSelfInfo()
     {
         throw new NotImplementedException();
     }

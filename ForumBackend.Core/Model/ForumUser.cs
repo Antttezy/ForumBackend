@@ -14,4 +14,7 @@ public class ForumUser
     [StringLength(127, MinimumLength = 3)]
     [Required]
     public string Email { get; set; } = string.Empty;
+
+    [Required]
+    public UserAuth UserAuth { get; set; } = new();
 }
