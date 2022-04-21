@@ -22,6 +22,7 @@ public class Startup
             });
         
         services.AddPostgresDatabase(_configuration);
+        services.AddUserService();
 
         services.AddCors(options =>
         {

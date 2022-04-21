@@ -1,4 +1,7 @@
+using ForumBackend.Core.Services;
 using ForumBackend.Data.Context;
+using ForumBackend.Mapping.Profiles;
+using ForumBackendApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumBackendApi.Util;
@@ -20,5 +23,18 @@ public static class StartupExtensions
         {
             options.UseNpgsql(connection, b => b.MigrationsAssembly("ForumBackendApi"));
         });
+    }
+
+    public static void AddAutoMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(config =>
+        {
+            config.AddProfile<UserMappingProfile>();
+        });
+    }
+
+    public static void AddUserService(this IServiceCollection services)
+    {
+        services.AddScoped<IUserService, UserService>();
     }
 }
