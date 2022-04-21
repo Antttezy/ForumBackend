@@ -9,14 +9,4 @@ public abstract class ResultBase<TResult, TError> where TResult : class where TE
     public abstract TResult? GetResult();
     public abstract TError? GetError();
     public abstract bool IsSuccess();
-
-    public static SuccessResult<TResult, TError> CreateSuccess(TResult result)
-    {
-        return new(result);
-    }
-
-    public static ErrorResult<TResult, TError> CreateError(TError error)
-    {
-        return new(error);
-    }
 }

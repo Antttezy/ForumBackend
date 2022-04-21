@@ -9,7 +9,7 @@ public class UserController : ControllerBase
     [HttpGet("user/me")]
     public async Task<ResultBase<string, string>> GetUserInfo()
     {
-        var result = ResultBase<string, string>.CreateSuccess("success");
+        var result = new SuccessResult<string, string>("success");
         return result;
     }
 }

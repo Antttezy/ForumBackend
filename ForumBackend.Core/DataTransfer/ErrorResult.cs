@@ -2,7 +2,7 @@ namespace ForumBackend.Core.DataTransfer;
 
 public sealed class ErrorResult<TResult, TError> : ResultBase<TResult, TError> where TResult: class where TError: class
 {
-    internal ErrorResult(TError error)
+    public ErrorResult(TError error)
     {
         Error = error;
     }
