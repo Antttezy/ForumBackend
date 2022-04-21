@@ -14,7 +14,12 @@
       "launchBrowser": false,
       "applicationUrl": "http://localhost:7001",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_USERNAME": "USERNAME",
+        "POSTGRES_PASSWORD": "PASSWORD",
+        "POSTGRES_DATABASE_NAME": "DATABASE_NAME",
+        "POSTGRES_HOST": "HOST",
+        "POSTGRES_PORT": "PORT"
       }
     },
     "IIS Express": {
