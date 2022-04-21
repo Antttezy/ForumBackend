@@ -12,8 +12,10 @@ public class UserAuth
     [Required]
     public int UserRef { get; set; }
 
+#pragma warning disable
     [Required]
-    public ForumUser User { get; set; } = new();
+    public ForumUser User { get; set; }
+#pragma warning restore
 
     [Required]
     public string Password { get; set; } = string.Empty;

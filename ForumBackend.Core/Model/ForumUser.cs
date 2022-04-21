@@ -15,6 +15,8 @@ public class ForumUser
     [Required]
     public string Email { get; set; } = string.Empty;
 
+#pragma warning disable
     [Required]
-    public UserAuth UserAuth { get; set; } = new();
+    public UserAuth UserAuth { get; set; }
+#pragma warning restore
 }
