@@ -20,7 +20,8 @@
         "POSTGRES_DATABASE_NAME": "DATABASE_NAME",
         "POSTGRES_HOST": "HOST",
         "POSTGRES_PORT": "PORT",
-        "AUTH_PUBLIC_KEY": "RSA_PUBLIC_KEY"
+        "AUTH_PUBLIC_KEY": "RSA_PUBLIC_KEY",
+        "AUTH_SECRET_KEY": "RSA_PRIVATE_KEY"
       }
     },
     "IIS Express": {
