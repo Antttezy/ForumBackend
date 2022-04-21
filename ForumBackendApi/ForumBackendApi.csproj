@@ -9,9 +9,12 @@
     <ItemGroup>
       <ProjectReference Include="..\ForumBackend.Core\ForumBackend.Core.csproj" />
       <ProjectReference Include="..\ForumBackend.Data\ForumBackend.Data.csproj" />
+      <ProjectReference Include="..\ForumBackend.Mapping\ForumBackend.Mapping.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="11.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
         <PrivateAssets>all</PrivateAssets>

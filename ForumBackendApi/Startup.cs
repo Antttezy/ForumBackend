@@ -20,7 +20,8 @@ public class Startup
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
-        
+
+        services.AddAutoMapper();
         services.AddPostgresDatabase(_configuration);
         services.AddUserService();
 

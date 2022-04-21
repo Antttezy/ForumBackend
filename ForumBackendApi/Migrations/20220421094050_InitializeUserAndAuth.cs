@@ -60,7 +60,8 @@ namespace ForumBackendApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Authentication_UserRef",
                 table: "Authentication",
-                column: "UserRef");
+                column: "UserRef",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

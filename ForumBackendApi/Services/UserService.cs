@@ -1,8 +1,10 @@
+using System.Security.Cryptography;
 using ForumBackend.Core.DataTransfer;
 using ForumBackend.Core.Exceptions;
 using ForumBackend.Core.Model;
 using ForumBackend.Core.Services;
 using ForumBackend.Data.Context;
+using ForumBackendApi.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumBackendApi.Services;
@@ -15,7 +17,7 @@ public class UserService : IUserService
     {
         _context = context;
     }
-    
+
     public async Task<ResultBase<ForumUser, string>> RegisterUser(string nickname, string email, string password)
     {
         ForumUser? user = await _context.Users!
@@ -27,7 +29,7 @@ public class UserService : IUserService
             {
                 return new ErrorResult<ForumUser, string>("User with this nickname already exists");
             }
-            
+
             if (user.Email == email)
             {
                 return new ErrorResult<ForumUser, string>("User with this email already exists");
@@ -42,16 +44,26 @@ public class UserService : IUserService
             Nickname = nickname
         };
 
+        UserAuth auth = new();
+
+        using (SHA512 hash = SHA512.Create())
+        {
+            var sha = hash.GetHash(password);
+            auth.Password = sha;
+        }
+
         try
         {
-            await _context.Users!.AddAsync(user);
+            auth.User = user;
+            await _context.Authentication!.AddAsync(auth);
             await _context.SaveChangesAsync();
-            
+
             return new SuccessResult<ForumUser, string>(user);
         }
         catch (DbUpdateException)
         {
-            return new ErrorResult<ForumUser, string>("An unexpected error occured while registering new user, please try again");
+            return new ErrorResult<ForumUser, string>(
+                "An unexpected error occured while registering new user, please try again");
         }
     }
 }
