@@ -27,6 +27,7 @@ public class Startup
         services.AddAutoMapper();
         services.AddPostgresDatabase(_configuration);
         services.AddUserService();
+        services.AddAuthenticationService();
 
         services.AddCors(options =>
         {

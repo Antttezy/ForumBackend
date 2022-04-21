@@ -65,4 +65,9 @@ public static class StartupExtensions
         services.AddSingleton<IAccessTokenGenerator, AccessTokenGenerator>();
         services.AddSingleton<IAccessTokenValidator, AccessTokenValidator>();
     }
+    
+    public static void AddAuthenticationService(this IServiceCollection services)
+    {
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+    }
 }
