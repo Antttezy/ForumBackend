@@ -1,5 +1,8 @@
 using System.Text.Json.Serialization;
+using ForumBackend.Core.Objects;
 using ForumBackendApi.Util;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ForumBackendApi;
 
@@ -24,6 +27,24 @@ public class Startup
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
 
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                AccessTokenParameters parameters = StartupExtensions.GetAccessTokenParameters(_configuration);
+
+                options.TokenValidationParameters = new()
+                {
+                    ValidIssuer = parameters.Issuer,
+                    ValidAudience = parameters.Audience,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = parameters.SecurityKey
+                };
+            });
+        
         services.AddAutoMapper();
         services.AddPostgresDatabase(_configuration);
         services.AddUserService();

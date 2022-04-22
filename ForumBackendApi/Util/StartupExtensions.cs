@@ -38,25 +38,30 @@ public static class StartupExtensions
         services.AddScoped<IUserService, UserService>();
     }
 
+    public static AccessTokenParameters GetAccessTokenParameters(IConfiguration configuration)
+    {
+        var secretKey = Convert.FromBase64String(configuration["AUTH_SECRET_KEY"]);
+
+        RSA rsa = RSA.Create();
+        rsa.ImportRSAPrivateKey(secretKey, out _);
+
+        var lifetime = int.Parse(configuration["LIFETIME"]);
+
+        return new()
+        {
+            Issuer = "FORUM-BACKEND",
+            Audience = "FORUM-BACKEND",
+            Lifetime = TimeSpan.FromMinutes(lifetime),
+            SecurityKey = new(rsa)
+        };
+    }
+
     public static void AddAccessTokenParameters(this IServiceCollection services)
     {
         services.AddSingleton<AccessTokenParameters>(factory =>
         {
             IConfiguration config = factory.GetRequiredService<IConfiguration>();
-            var secretKey = Convert.FromBase64String(config["AUTH_SECRET_KEY"]);
-
-            RSA rsa = RSA.Create();
-            rsa.ImportRSAPrivateKey(secretKey, out _);
-
-            var lifetime = int.Parse(config["LIFETIME"]);
-
-            return new()
-            {
-                Issuer = "FORUM-BACKEND",
-                Audience = "FORUM-BACKEND",
-                Lifetime = TimeSpan.FromMinutes(lifetime),
-                SecurityKey = new(rsa)
-            };
+            return GetAccessTokenParameters(config);
         });
     }
 
