@@ -55,7 +55,7 @@ public class AuthenticationService : IAuthenticationService
             return new ErrorResult<string, string>("Bad Token");
         }
 
-        Claim? claim =  identity.FindFirst("id");
+        Claim? claim = identity.FindFirst("id");
 
         if (claim == null)
         {
