@@ -1,7 +1,10 @@
+using System.Security.Claims;
 using AutoMapper;
 using ForumBackend.Core.DataTransfer;
 using ForumBackend.Core.Model;
 using ForumBackend.Core.Services;
+using ForumBackendApi.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumBackendApi.Controllers;
@@ -19,10 +22,30 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
+    [Authorize]
     [HttpGet("me")]
-    public async Task<ResultBase<string, string>> GetSelfInfo()
+    public async Task<ResultBase<ForumUserDto, string>> GetSelfInfo()
     {
-        throw new NotImplementedException();
+        if (User.Identity is not ClaimsIdentity identity)
+        {
+            return new ErrorResult<ForumUserDto, string>("Bad identity");
+        }
+
+        var id = identity.GetUserId();
+
+        if (id is not { } identifier)
+        {
+            return new ErrorResult<ForumUserDto, string>("Bad token");
+        }
+
+        ForumUser? user = await _userService.GetUserById(identifier);
+
+        if (user == null)
+        {
+            return new ErrorResult<ForumUserDto, string>("User not found");
+        }
+
+        return new SuccessResult<ForumUserDto, string>(_mapper.Map<ForumUserDto>(user));
     }
 
     [HttpPost("register")]

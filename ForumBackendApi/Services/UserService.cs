@@ -66,4 +66,13 @@ public class UserService : IUserService
                 "An unexpected error occured while registering new user, please try again");
         }
     }
+
+    public async Task<ForumUser?> GetUserById(int id)
+    {
+        ForumUser? user = await _context.Users!
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        return user;
+    }
 }
