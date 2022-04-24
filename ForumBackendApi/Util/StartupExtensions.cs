@@ -5,7 +5,6 @@ using ForumBackend.Data.Context;
 using ForumBackend.Mapping.Profiles;
 using ForumBackendApi.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ForumBackendApi.Util;
 
@@ -30,7 +29,11 @@ public static class StartupExtensions
 
     public static void AddAutoMapper(this IServiceCollection services)
     {
-        services.AddAutoMapper(config => { config.AddProfile<UserMappingProfile>(); });
+        services.AddAutoMapper(config =>
+        {
+            config.AddProfile<UserMappingProfile>();
+            config.AddProfile<PostMappingProfile>();
+        });
     }
 
     public static void AddUserService(this IServiceCollection services)
@@ -58,7 +61,7 @@ public static class StartupExtensions
 
     public static void AddAccessTokenParameters(this IServiceCollection services)
     {
-        services.AddSingleton<AccessTokenParameters>(factory =>
+        services.AddSingleton(factory =>
         {
             IConfiguration config = factory.GetRequiredService<IConfiguration>();
             return GetAccessTokenParameters(config);
@@ -74,5 +77,10 @@ public static class StartupExtensions
     public static void AddAuthenticationService(this IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+    }
+
+    public static void AddPostService(this IServiceCollection services)
+    {
+        services.AddScoped<IPostService, PostService>();
     }
 }

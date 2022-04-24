@@ -9,6 +9,9 @@ public class PagingDto
     public int Start { get; set; }
     
     [Required]
-    [Range(1, int.MaxValue)]
+    [Range(1, 20)]
     public int Length { get; set; }
+    
+    [Range(0, long.MaxValue)]
+    public long? Before { get; set; }
 }

@@ -49,6 +49,7 @@ public class Startup
         services.AddPostgresDatabase(_configuration);
         services.AddUserService();
         services.AddAuthenticationService();
+        services.AddPostService();
 
         services.AddCors(options =>
         {

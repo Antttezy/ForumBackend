@@ -21,6 +21,36 @@ namespace ForumBackendApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ForumBackend.Core.Model.ForumPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorRef")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorRef");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("ForumBackend.Core.Model.ForumUser", b =>
                 {
                     b.Property<int>("Id")
@@ -61,20 +91,38 @@ namespace ForumBackendApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserRef");
+                    b.HasIndex("UserRef")
+                        .IsUnique();
 
                     b.ToTable("Authentication");
+                });
+
+            modelBuilder.Entity("ForumBackend.Core.Model.ForumPost", b =>
+                {
+                    b.HasOne("ForumBackend.Core.Model.ForumUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorRef")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("ForumBackend.Core.Model.UserAuth", b =>
                 {
                     b.HasOne("ForumBackend.Core.Model.ForumUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserRef")
+                        .WithOne("UserAuth")
+                        .HasForeignKey("ForumBackend.Core.Model.UserAuth", "UserRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ForumBackend.Core.Model.ForumUser", b =>
+                {
+                    b.Navigation("UserAuth")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
