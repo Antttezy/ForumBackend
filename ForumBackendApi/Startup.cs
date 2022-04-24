@@ -50,6 +50,7 @@ public class Startup
         services.AddUserService();
         services.AddAuthenticationService();
         services.AddPostService();
+        services.AddCommentService();
 
         services.AddCors(options =>
         {

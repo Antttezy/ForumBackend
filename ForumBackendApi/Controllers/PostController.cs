@@ -15,11 +15,13 @@ public class PostController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IPostService _postService;
+    private readonly ICommentService _commentService;
 
-    public PostController(IMapper mapper, IPostService postService)
+    public PostController(IMapper mapper, IPostService postService, ICommentService commentService)
     {
         _mapper = mapper;
         _postService = postService;
+        _commentService = commentService;
     }
 
     [Authorize]
@@ -75,5 +77,13 @@ public class PostController : ControllerBase
         }
 
         return new SuccessResult<ForumPostDto, string>(_mapper.Map<ForumPostDto>(p));
+    }
+
+    [HttpGet("{id:int}/comments")]
+    public async Task<IEnumerable<ForumCommentDto>> PostDetails([FromRoute] int id, [FromQuery] PagingDto pagingDto)
+    {
+        var comments = await _commentService.GetPostComments(id, pagingDto.Start, pagingDto.Length);
+
+        return _mapper.ProjectTo<ForumCommentDto>(comments.AsQueryable());
     }
 }

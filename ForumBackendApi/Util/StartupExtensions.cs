@@ -33,6 +33,7 @@ public static class StartupExtensions
         {
             config.AddProfile<UserMappingProfile>();
             config.AddProfile<PostMappingProfile>();
+            config.AddProfile<CommentMappingProfile>();
         });
     }
 
@@ -82,5 +83,10 @@ public static class StartupExtensions
     public static void AddPostService(this IServiceCollection services)
     {
         services.AddScoped<IPostService, PostService>();
+    }
+    
+    public static void AddCommentService(this IServiceCollection services)
+    {
+        services.AddScoped<ICommentService, CommentService>();
     }
 }

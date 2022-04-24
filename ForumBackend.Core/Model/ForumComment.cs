@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForumBackend.Core.Model;
 
-public class ForumPost
+public class ForumComment
 {
     [Key]
     public int Id { get; set; }
 
     [Required]
-    [StringLength(150, MinimumLength = 1)]
-    public string Description { get; set; } = string.Empty;
+    [ForeignKey(nameof(Post))]
+    public int PostRef { get; set; }
+
+#pragma warning disable
 
     [Required]
-    public string Text { get; set; } = string.Empty;
-
-    [Required]
-    public long CreatedAt { get; set; }
+    public ForumPost Post { get; set; }
+#pragma warning restore
 
     [Required]
     [ForeignKey(nameof(Author))]
@@ -28,8 +28,9 @@ public class ForumPost
     public ForumUser Author { get; set; }
 #pragma warning restore
 
-#pragma warning disable
-    
-    public ICollection<ForumComment> Comments { get; set; }
-#pragma warning restore
+    [Required]
+    public long CreatedAt { get; set; }
+
+    [Required]
+    public string Text { get; set; } = string.Empty;
 }
