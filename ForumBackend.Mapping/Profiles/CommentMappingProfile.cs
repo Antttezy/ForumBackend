@@ -19,7 +19,6 @@ public class CommentMappingProfile: Profile
             .ForMember(comm => comm.CreatedAt, c =>
                 c.MapFrom(comm => DateTime.UnixEpoch.AddSeconds(comm.CreatedAt)))
             .ForMember(comm => comm.Likes, c =>
-                c.MapFrom(comm => 0));
-        //TODO: Count likes
+                c.MapFrom(comm => comm.LikedUsers.Count));
     }
 }

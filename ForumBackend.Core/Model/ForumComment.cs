@@ -33,4 +33,9 @@ public class ForumComment
 
     [Required]
     public string Text { get; set; } = string.Empty;
+
+#pragma warning disable
+
+    public ICollection<CommentLike> LikedUsers { get; set; }
+#pragma warning restore
 }

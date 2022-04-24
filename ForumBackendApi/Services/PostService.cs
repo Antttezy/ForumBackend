@@ -51,8 +51,8 @@ public class PostService : IPostService
     {
         IQueryable<ForumPost> posts = _context.Posts!
             .AsNoTracking()
-            .Include(p => p.Author);
-        // TODO: Include likes counter
+            .Include(p => p.Author)
+            .Include(p => p.LikedUsers);
 
         if (before is { } bf)
         {
@@ -72,7 +72,7 @@ public class PostService : IPostService
         ForumPost? post = await _context.Posts!
             .AsNoTracking()
             .Include(p => p.Author)
-            // TODO: Include likes counter
+            .Include(p => p.LikedUsers)
             .FirstOrDefaultAsync(p => p.Id == id);
 
         return post;

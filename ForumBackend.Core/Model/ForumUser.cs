@@ -16,7 +16,13 @@ public class ForumUser
     public string Email { get; set; } = string.Empty;
 
 #pragma warning disable
+
     [Required]
     public UserAuth UserAuth { get; set; }
+
+    public ICollection<PostLike> LikedPosts { get; set; }
+
+    public ICollection<CommentLike> LikedComments { get; set; }
+
 #pragma warning restore
 }

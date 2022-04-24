@@ -29,7 +29,9 @@ public class ForumPost
 #pragma warning restore
 
 #pragma warning disable
-    
+    // ReSharper disable once CollectionNeverUpdated.Global
     public ICollection<ForumComment> Comments { get; set; }
+    
+    public ICollection<PostLike> LikedUsers { get; set; }
 #pragma warning restore
 }

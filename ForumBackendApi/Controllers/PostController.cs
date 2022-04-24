@@ -62,7 +62,9 @@ public class PostController : ControllerBase
             AuthorRef = p.AuthorRef,
             Description = p.Description,
             Text = null!,
-            CreatedAt = p.CreatedAt
+            CreatedAt = p.CreatedAt,
+            Comments = p.Comments,
+            LikedUsers = p.LikedUsers
         }));
     }
 
@@ -85,5 +87,32 @@ public class PostController : ControllerBase
         var comments = await _commentService.GetPostComments(id, pagingDto.Start, pagingDto.Length);
 
         return _mapper.ProjectTo<ForumCommentDto>(comments.AsQueryable());
+    }
+
+    [Authorize]
+    [HttpPost("{id:int}/comments/create")]
+    public async Task<ResultBase<ForumCommentDto, string>> LeaveComment([FromRoute] int id,
+        [FromBody] ForumCommentDto comment)
+    {
+        if (User.Identity is not ClaimsIdentity identity)
+        {
+            return new ErrorResult<ForumCommentDto, string>("Bad identity");
+        }
+
+        var userId = identity.GetUserId();
+
+        if (userId is not { } identifier)
+        {
+            return new ErrorResult<ForumCommentDto, string>("Bad token");
+        }
+
+        var result = await _commentService.CreateComment(id, identifier, comment.Text);
+
+        if (result is ErrorResult<ForumComment, string> errorResult)
+        {
+            return new ErrorResult<ForumCommentDto, string>(errorResult.Error);
+        }
+
+        return new SuccessResult<ForumCommentDto, string>(_mapper.Map<ForumCommentDto>(result.GetResult()));
     }
 }
