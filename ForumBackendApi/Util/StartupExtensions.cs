@@ -89,4 +89,9 @@ public static class StartupExtensions
     {
         services.AddScoped<ICommentService, CommentService>();
     }
+    
+    public static void AddLikeService(this IServiceCollection services)
+    {
+        services.AddScoped<ILikeService, LikeService>();
+    }
 }

@@ -53,19 +53,20 @@ public class PostController : ControllerBase
     [HttpGet("list")]
     public async Task<IEnumerable<ForumPostDto>> ListPosts([FromQuery] PagingDto paging)
     {
-        var posts = await _postService.ListPosts(paging.Start, paging.Length, paging.Before);
+        var posts = (await _postService.ListPosts(paging.Start, paging.Length, paging.Before)).ToList();
+        var id = (User.Identity as ClaimsIdentity)?.GetUserId();
 
-        return _mapper.ProjectTo<ForumPostDto>(posts.AsQueryable().Select(p => new ForumPost
-        {
-            Id = p.Id,
-            Author = p.Author,
-            AuthorRef = p.AuthorRef,
-            Description = p.Description,
-            Text = null!,
-            CreatedAt = p.CreatedAt,
-            Comments = p.Comments,
-            LikedUsers = p.LikedUsers
-        }));
+        return _mapper.ProjectTo<ForumPostDto>(posts.AsQueryable())
+            .Select(p => new ForumPostDto
+            {
+                Id = p.Id,
+                Author = p.Author,
+                Text = null!,
+                Description = p.Description,
+                Likes = p.Likes,
+                CreatedAt = p.CreatedAt,
+                Liked = posts.First(post => post.Id == p.Id).LikedUsers.Any(u => u.Id == id)
+            });
     }
 
     [HttpGet("details/{id:int}")]
@@ -84,9 +85,19 @@ public class PostController : ControllerBase
     [HttpGet("{id:int}/comments")]
     public async Task<IEnumerable<ForumCommentDto>> PostDetails([FromRoute] int id, [FromQuery] PagingDto pagingDto)
     {
-        var comments = await _commentService.GetPostComments(id, pagingDto.Start, pagingDto.Length);
+        var comments = (await _commentService.GetPostComments(id, pagingDto.Start, pagingDto.Length)).ToList();
+        var userId = (User.Identity as ClaimsIdentity)?.GetUserId();
 
-        return _mapper.ProjectTo<ForumCommentDto>(comments.AsQueryable());
+        return _mapper.ProjectTo<ForumCommentDto>(comments.AsQueryable())
+            .Select(c => new ForumCommentDto
+            {
+                Id = c.Id,
+                Likes = c.Likes,
+                Author = c.Author,
+                Text = c.Text,
+                CreatedAt = c.CreatedAt,
+                Liked = comments.First(com => com.Id == c.Id).LikedUsers.Any(u => u.Id == userId)
+            });
     }
 
     [Authorize]
