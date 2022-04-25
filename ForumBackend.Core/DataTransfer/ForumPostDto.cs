@@ -17,5 +17,7 @@ public class ForumPostDto
     
     public int? Likes { get; set; }
     
+    public bool Liked { get; set; }
+    
     public string? Author { get; set; }
 }

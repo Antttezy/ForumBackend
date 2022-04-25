@@ -21,6 +21,8 @@ public class PostMappingProfile : Profile
             .ForMember(p => p.Author, c =>
                 c.MapFrom(p => p.Author.Nickname))
             .ForMember(p => p.Likes, c =>
-                c.MapFrom(p => p.LikedUsers.Count));
+                c.MapFrom(p => p.LikedUsers.Count))
+            .ForMember(p => p.Liked, c =>
+                c.MapFrom(_ => false));
     }
 }
