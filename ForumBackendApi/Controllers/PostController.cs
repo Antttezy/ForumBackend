@@ -73,13 +73,17 @@ public class PostController : ControllerBase
     public async Task<ResultBase<ForumPostDto, string>> PostDetails([FromRoute] int id)
     {
         ForumPost? post = await _postService.PostDetails(id);
+        var userId = (User.Identity as ClaimsIdentity)?.GetUserId();
 
         if (post is not { } p)
         {
             return new ErrorResult<ForumPostDto, string>("Post not found");
         }
 
-        return new SuccessResult<ForumPostDto, string>(_mapper.Map<ForumPostDto>(p));
+        ForumPostDto result = _mapper.Map<ForumPostDto>(p);
+        result.Liked = p.LikedUsers.Any(u => u.UserRef == userId);
+
+        return new SuccessResult<ForumPostDto, string>(result);
     }
 
     [HttpGet("{id:int}/comments")]
