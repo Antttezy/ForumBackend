@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:13.6-alpine
+    ports:
+      - "7002:5432"
+    volumes:
+      - ".:/var/lib/postgresql/data"
+    networks:
+      - "backend"
+    environment:
+      POSTGRES_DB: "ForumData"
+      POSTGRES_USER: "forum"
+      POSTGRES_PASSWORD: "secretpasswd"
+      PGDATA: "/var/lib/postgresql/data/ForumData"
+      
+  application:
+    build: .
+    ports:
+      - "7001:80"
+    networks:
+      - "backend"
+    restart: always
+    depends_on:
+      - database
+    environment:
+        POSTGRES_USERNAME: "${POSTGRES_USERNAME}"
+        POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+        POSTGRES_DATABASE_NAME: "${POSTGRES_DATABASE_NAME}"
+        POSTGRES_HOST: "${POSTGRES_HOST}"
+        POSTGRES_PORT: "${POSTGRES_PORT}"
+        AUTH_PUBLIC_KEY: "${AUTH_PUBLIC_KEY}"
+        AUTH_SECRET_KEY: "${AUTH_SECRET_KEY}"
+        LIFETIME: "${LIFETIME}"
+      
+networks:
+  backend:
