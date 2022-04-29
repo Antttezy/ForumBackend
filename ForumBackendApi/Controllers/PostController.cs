@@ -65,7 +65,7 @@ public class PostController : ControllerBase
                 Description = p.Description,
                 Likes = p.Likes,
                 CreatedAt = p.CreatedAt,
-                Liked = posts.First(post => post.Id == p.Id).LikedUsers.Any(u => u.Id == id)
+                Liked = posts.First(post => post.Id == p.Id).LikedUsers.Any(u => u.UserRef == id)
             });
     }
 
@@ -96,7 +96,7 @@ public class PostController : ControllerBase
                 Author = c.Author,
                 Text = c.Text,
                 CreatedAt = c.CreatedAt,
-                Liked = comments.First(com => com.Id == c.Id).LikedUsers.Any(u => u.Id == userId)
+                Liked = comments.First(com => com.Id == c.Id).LikedUsers.Any(u => u.UserRef == userId)
             });
     }
 
